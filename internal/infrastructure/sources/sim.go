@@ -5,6 +5,7 @@ import (
 	"github.com/NickRI/btc_index/internal"
 	"github.com/NickRI/btc_index/internal/models"
 	"github.com/shopspring/decimal"
+	"log"
 	"math"
 	"math/rand"
 	"time"
@@ -39,6 +40,7 @@ func (s *sim) WritePrices(index internal.Index) error {
 	go func() {
 		for {
 			if s.errChance > rand.Float64() {
+				log.Println("writer has end with some_error")
 				return
 			}
 

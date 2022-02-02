@@ -13,12 +13,14 @@ import (
 	"time"
 )
 
+const XTimesFaster = 10
+
 func main() {
 	ctx, cancel := context.WithCancel(context.Background())
 
-	btcUsdIdx := indexes.NewMBOptimized(models.BTCUSD, models.FiatDecimals, cmd.AmountOfSources, time.Minute)
+	btcUsdIdx := indexes.NewMBOptimized(models.BTCUSD, models.FiatDecimals, cmd.AmountOfSources*XTimesFaster, time.Minute)
 
-	writers := cmd.MakeWriters(cmd.AmountOfSources, models.BTCUSD, 39250.12, 0.003, time.Second/10, time.Second)
+	writers := cmd.MakeWriters(cmd.AmountOfSources, models.BTCUSD, 39250.12, 0.0003, time.Second/XTimesFaster, time.Second/XTimesFaster)
 
 	aggr := aggregates.NewEfficient(btcUsdIdx, writers...)
 
