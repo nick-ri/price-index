@@ -7,18 +7,20 @@ import (
 
 type channelBased struct {
 	index internal.Index
+	subs  []internal.PriceStreamSubscriber
 }
 
-func NewChannelBased(idx internal.Index) *channelBased {
+func NewChannelBased(idx internal.Index, subs ...internal.PriceStreamSubscriber) *channelBased {
 	return &channelBased{
 		index: idx,
+		subs:  subs,
 	}
 }
 
 var _ internal.Aggregator = (*channelBased)(nil)
 
-func (s *channelBased) ListenStream(ctx context.Context, subs ...internal.PriceStreamSubscriber) error {
-	stream := internal.TickerMultiplexor(ctx, s.index.GetTicker(), subs...)
+func (s *channelBased) ListenStream(ctx context.Context) error {
+	stream := internal.TickerMultiplexor(ctx, s.index.GetTicker(), s.subs...)
 
 	for {
 		select {

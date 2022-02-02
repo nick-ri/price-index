@@ -12,9 +12,14 @@ type PriceStreamSubscriber interface {
 	SubscribePriceStream(models.Ticker) (chan models.TickerPrice, chan error)
 }
 
+// PirceWriter for more efficient data setting solution
+type PirceWriter interface {
+	WritePrices(index Index) error
+}
+
 // Aggregator provides ability to listen multipe streams
 type Aggregator interface {
-	ListenStream(ctx context.Context, subs ...PriceStreamSubscriber) error
+	ListenStream(ctx context.Context) error
 }
 
 // Index main element to store prices and calculate average price

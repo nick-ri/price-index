@@ -16,11 +16,11 @@ import (
 func main() {
 	ctx, cancel := context.WithCancel(context.Background())
 
-	btcUsdIdx := indexes.NewMutexBased(models.BTCUSD, cmd.AmountOfSources, time.Minute)
+	btcUsdIdx := indexes.NewMBOptimized(models.BTCUSD, models.FiatDecimals, cmd.AmountOfSources, time.Minute)
 
-	subs := cmd.MakeSubscribers(cmd.AmountOfSources, models.BTCUSD, 39250.12, 0.003, time.Second, time.Second)
+	writers := cmd.MakeWriters(cmd.AmountOfSources, models.BTCUSD, 39250.12, 0.003, time.Second/10, time.Second)
 
-	aggr := aggregates.NewChannelBased(btcUsdIdx, subs...)
+	aggr := aggregates.NewEfficient(btcUsdIdx, writers...)
 
 	ctrl := controller.NewConsoleController(time.Second, btcUsdIdx, aggr)
 

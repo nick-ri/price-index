@@ -35,6 +35,28 @@ func NewSim(ticker models.Ticker, basePrice, errChance float64, minDelay, maxDel
 	}
 }
 
+func (s *sim) WritePrices(index internal.Index) error {
+	go func() {
+		for {
+			index.SetPrice(models.TickerPrice{
+				Ticker: s.ticker,
+				Time:   time.Now(),
+				Price:  decimal.NewFromFloat(randPrice(s.basePrice)).String(),
+			})
+
+			delay := time.Duration(rand.Int63n(int64(s.maxDelay)))
+
+			if delay < s.minDelay {
+				delay = s.minDelay
+			}
+
+			time.Sleep(delay)
+		}
+	}()
+
+	return nil
+}
+
 func (s *sim) SubscribePriceStream(ticker models.Ticker) (chan models.TickerPrice, chan error) {
 	tpCh := make(chan models.TickerPrice)
 	errCh := make(chan error)

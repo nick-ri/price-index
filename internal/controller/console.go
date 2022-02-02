@@ -12,7 +12,6 @@ type consoleController struct {
 	rng        time.Duration
 	index      internal.Index
 	aggregator internal.Aggregator
-	subscibers []internal.PriceStreamSubscriber
 }
 
 var _ internal.Controller = (*consoleController)(nil)
@@ -21,13 +20,11 @@ func NewConsoleController(
 	rng time.Duration,
 	index internal.Index,
 	aggregator internal.Aggregator,
-	subscibers ...internal.PriceStreamSubscriber,
 ) *consoleController {
 	return &consoleController{
 		rng:        rng,
 		index:      index,
 		aggregator: aggregator,
-		subscibers: subscibers,
 	}
 }
 
@@ -35,7 +32,7 @@ func (c *consoleController) Exec(ctx context.Context) error {
 	ticker := c.index.GetTicker()
 
 	go func() {
-		if err := c.aggregator.ListenStream(ctx, c.subscibers...); err != nil {
+		if err := c.aggregator.ListenStream(ctx); err != nil {
 			log.Printf("aggregator.ListenStream: got error, %v", err)
 		}
 	}()

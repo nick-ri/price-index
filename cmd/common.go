@@ -18,3 +18,13 @@ func MakeSubscribers(count int, ticker models.Ticker, basePrice, errChance float
 
 	return sims
 }
+
+func MakeWriters(count int, ticker models.Ticker, basePrice, errChance float64, minDelay, maxDelay time.Duration) []internal.PirceWriter {
+	var sims = make([]internal.PirceWriter, 0, count)
+
+	for i := 0; i < count; i++ {
+		sims = append(sims, sources.NewSim(ticker, basePrice, errChance, minDelay, maxDelay))
+	}
+
+	return sims
+}
