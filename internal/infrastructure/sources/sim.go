@@ -38,6 +38,10 @@ func NewSim(ticker models.Ticker, basePrice, errChance float64, minDelay, maxDel
 func (s *sim) WritePrices(index internal.Index) error {
 	go func() {
 		for {
+			if s.errChance > rand.Float64() {
+				return
+			}
+
 			index.SetPrice(models.TickerPrice{
 				Ticker: s.ticker,
 				Time:   time.Now(),
