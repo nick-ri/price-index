@@ -9,11 +9,11 @@ import (
 	"strings"
 )
 
-const _TickerName = "BTC_USD"
+const _TickerName = "BTC_USDETH_USDETH_BTC"
 
-var _TickerIndex = [...]uint8{0, 7}
+var _TickerIndex = [...]uint8{0, 7, 14, 21}
 
-const _TickerLowerName = "btc_usd"
+const _TickerLowerName = "btc_usdeth_usdeth_btc"
 
 func (i Ticker) String() string {
 	i -= 1
@@ -28,17 +28,25 @@ func (i Ticker) String() string {
 func _TickerNoOp() {
 	var x [1]struct{}
 	_ = x[BTCUSD-(1)]
+	_ = x[ETHUSD-(2)]
+	_ = x[ETHBTC-(3)]
 }
 
-var _TickerValues = []Ticker{BTCUSD}
+var _TickerValues = []Ticker{BTCUSD, ETHUSD, ETHBTC}
 
 var _TickerNameToValueMap = map[string]Ticker{
-	_TickerName[0:7]:      BTCUSD,
-	_TickerLowerName[0:7]: BTCUSD,
+	_TickerName[0:7]:        BTCUSD,
+	_TickerLowerName[0:7]:   BTCUSD,
+	_TickerName[7:14]:       ETHUSD,
+	_TickerLowerName[7:14]:  ETHUSD,
+	_TickerName[14:21]:      ETHBTC,
+	_TickerLowerName[14:21]: ETHBTC,
 }
 
 var _TickerNames = []string{
 	_TickerName[0:7],
+	_TickerName[7:14],
+	_TickerName[14:21],
 }
 
 // TickerString retrieves an enum value from the enum constants string name.
