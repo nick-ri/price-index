@@ -33,6 +33,16 @@ func Benchmark_mbOptimized_SetPrice(b *testing.B) {
 	setPriceBench(b, mbased)
 }
 
+func Benchmark_lfOptimized_GetPrice(b *testing.B) {
+	mbased := NewLFOptimized(models.Ticker(0), models.FiatDecimals, amountOfStreams, time.Duration(b.N)*time.Second)
+	getPriceBench(b, mbased)
+}
+
+func Benchmark_lfOptimized_SetPrice(b *testing.B) {
+	mbased := NewLFOptimized(models.Ticker(0), models.FiatDecimals, amountOfStreams, time.Duration(b.N)*time.Second)
+	setPriceBench(b, mbased)
+}
+
 func setPriceBench(b *testing.B, index internal.Index) {
 	b.ReportAllocs()
 	b.SetParallelism(amountOfStreams)
