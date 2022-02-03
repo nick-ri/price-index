@@ -7,11 +7,11 @@ import (
 	"os/signal"
 	"time"
 
-	"github.com/NickRI/btc_index/cmd"
-	"github.com/NickRI/btc_index/internal/aggregates"
-	"github.com/NickRI/btc_index/internal/controller"
-	"github.com/NickRI/btc_index/internal/indexes"
-	"github.com/NickRI/btc_index/internal/models"
+	"github.com/NickRI/price-index/cmd"
+	"github.com/NickRI/price-index/internal/aggregates"
+	"github.com/NickRI/price-index/internal/controller"
+	"github.com/NickRI/price-index/internal/indexes"
+	"github.com/NickRI/price-index/internal/models"
 )
 
 func main() {

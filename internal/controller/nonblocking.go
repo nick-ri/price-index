@@ -4,7 +4,7 @@ import (
 	"context"
 	"log"
 
-	"github.com/NickRI/btc_index/internal"
+	"github.com/NickRI/price-index/internal"
 )
 
 type nonblockingController struct {

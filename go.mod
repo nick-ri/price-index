@@ -1,4 +1,4 @@
-module github.com/NickRI/btc_index
+module github.com/NickRI/price-index
 
 go 1.17
 

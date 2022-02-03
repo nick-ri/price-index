@@ -5,8 +5,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/NickRI/btc_index/internal"
-	"github.com/NickRI/btc_index/internal/models"
+	"github.com/NickRI/price-index/internal"
+	"github.com/NickRI/price-index/internal/models"
 	"github.com/shopspring/decimal"
 )
 

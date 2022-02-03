@@ -4,7 +4,7 @@ import (
 	"context"
 	"log"
 
-	"github.com/NickRI/btc_index/internal/models"
+	"github.com/NickRI/price-index/internal/models"
 )
 
 func TickerMultiplexor(ctx context.Context, ticker models.Ticker, subscibers ...PriceStreamSubscriber) chan models.TickerPrice {

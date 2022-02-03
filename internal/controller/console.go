@@ -6,7 +6,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/NickRI/btc_index/internal"
+	"github.com/NickRI/price-index/internal"
 )
 
 type consoleController struct {

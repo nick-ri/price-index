@@ -1,7 +1,7 @@
 package common
 
 import (
-	"github.com/NickRI/btc_index/internal"
+	"github.com/NickRI/price-index/internal"
 )
 
 type IndexItem struct {

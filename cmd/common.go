@@ -3,9 +3,9 @@ package cmd
 import (
 	"time"
 
-	"github.com/NickRI/btc_index/internal"
-	"github.com/NickRI/btc_index/internal/infrastructure/sources"
-	"github.com/NickRI/btc_index/internal/models"
+	"github.com/NickRI/price-index/internal"
+	"github.com/NickRI/price-index/internal/infrastructure/sources"
+	"github.com/NickRI/price-index/internal/models"
 )
 
 const AmountOfSources = 100

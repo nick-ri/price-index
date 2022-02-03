@@ -3,7 +3,7 @@ package aggregates
 import (
 	"context"
 
-	"github.com/NickRI/btc_index/internal"
+	"github.com/NickRI/price-index/internal"
 )
 
 type channelBased struct {
