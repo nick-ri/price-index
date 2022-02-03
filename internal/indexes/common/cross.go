@@ -3,10 +3,11 @@ package common
 import (
 	"errors"
 	"fmt"
+	"time"
+
 	"github.com/NickRI/btc_index/internal"
 	"github.com/NickRI/btc_index/internal/models"
 	"github.com/shopspring/decimal"
-	"time"
 )
 
 type CrossType int8
@@ -27,7 +28,7 @@ type IndexDir struct {
 	NeedReverse bool
 }
 
-func (c *Cross) GetPrice(rStart, rEnd time.Time) (price, fairnsess decimal.Decimal, err error) {
+func (c *Cross) GetPrice(rStart, rEnd time.Time) (price, fairness decimal.Decimal, err error) {
 	fprice, ffairness, err := c.First.GetPrice(rStart, rEnd)
 	if err != nil {
 		return decimal.Zero, decimal.Zero, fmt.Errorf("first index return error: %w", err)
@@ -55,18 +56,16 @@ func (c *Cross) GetPrice(rStart, rEnd time.Time) (price, fairnsess decimal.Decim
 	}
 
 	switch c.Type {
-	case Reversed:
-		price = fprice.Div(sprice)
-	case Direct:
+	case Reversed, Direct:
 		price = fprice.Div(sprice)
 	case Mixed:
 		price = fprice.Mul(sprice)
 	}
 
 	if ffairness.GreaterThan(sfairness) { // need to get smallest
-		fairnsess = sfairness
+		fairness = sfairness
 	} else {
-		fairnsess = ffairness
+		fairness = ffairness
 	}
 
 	return
@@ -111,7 +110,6 @@ func (l IndexList) SearchCross(orig models.Ticker) []Cross {
 					First:  IndexDir{Index: fidx, NeedReverse: fidx.Reverted},
 					Second: IndexDir{Index: sidx, NeedReverse: sidx.Reverted},
 				})
-
 			}
 		}
 	}
@@ -133,5 +131,5 @@ func (l IndexList) SearchCross(orig models.Ticker) []Cross {
 		resultList = append(resultList, item)
 	}
 
-	return crossList
+	return resultList
 }

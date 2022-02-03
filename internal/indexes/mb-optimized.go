@@ -1,15 +1,15 @@
 package indexes
 
 import (
-	"encoding/gob"
 	"errors"
+	"log"
+	"sync"
+	"time"
+
 	"github.com/NickRI/btc_index/internal"
 	"github.com/NickRI/btc_index/internal/indexes/common"
 	"github.com/NickRI/btc_index/internal/models"
 	"github.com/shopspring/decimal"
-	"log"
-	"sync"
-	"time"
 )
 
 // mutex-based index with optimizations, about 5x times faster on my laptop
@@ -85,11 +85,10 @@ func (s *mbOptimized) GetPrice(rStart, rEnd time.Time) (decimal.Decimal, decimal
 		nil
 }
 
-const muSize = 8 // it's pretty enought.
+const muSize = 8 // the size is enough. For random r/w it should shows best results
 
 type ringData struct {
 	mu    [muSize]sync.Mutex
-	dec   *gob.Encoder
 	size  int
 	vsize int
 	data  []*data

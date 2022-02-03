@@ -2,13 +2,14 @@ package sources
 
 import (
 	"errors"
-	"github.com/NickRI/btc_index/internal"
-	"github.com/NickRI/btc_index/internal/models"
-	"github.com/shopspring/decimal"
 	"log"
 	"math"
 	"math/rand"
 	"time"
+
+	"github.com/NickRI/btc_index/internal"
+	"github.com/NickRI/btc_index/internal/models"
+	"github.com/shopspring/decimal"
 )
 
 func init() {

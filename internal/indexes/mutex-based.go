@@ -2,12 +2,13 @@ package indexes
 
 import (
 	"errors"
-	"github.com/NickRI/btc_index/internal"
-	"github.com/NickRI/btc_index/internal/models"
-	"github.com/shopspring/decimal"
 	"log"
 	"sync"
 	"time"
+
+	"github.com/NickRI/btc_index/internal"
+	"github.com/NickRI/btc_index/internal/models"
+	"github.com/shopspring/decimal"
 )
 
 type mutexBased struct {

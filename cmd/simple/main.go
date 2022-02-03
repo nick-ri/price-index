@@ -2,15 +2,16 @@ package main
 
 import (
 	"context"
+	"log"
+	"os"
+	"os/signal"
+	"time"
+
 	"github.com/NickRI/btc_index/cmd"
 	"github.com/NickRI/btc_index/internal/aggregates"
 	"github.com/NickRI/btc_index/internal/controller"
 	"github.com/NickRI/btc_index/internal/indexes"
 	"github.com/NickRI/btc_index/internal/models"
-	"log"
-	"os"
-	"os/signal"
-	"time"
 )
 
 func main() {
@@ -18,11 +19,11 @@ func main() {
 
 	btcUsdIdx := indexes.NewMutexBased(models.BTCUSD, cmd.AmountOfSources, time.Minute)
 
-	subs := cmd.MakeSubscribers(cmd.AmountOfSources, models.BTCUSD, 39250.12, 0.003, time.Second, time.Second)
+	subs := cmd.MakeSubscribers(cmd.AmountOfSources, models.BTCUSD, 39250.12, 0.003, time.Second, time.Second*2)
 
 	aggr := aggregates.NewChannelBased(btcUsdIdx, subs...)
 
-	ctrl := controller.NewConsoleController(time.Second, btcUsdIdx, aggr)
+	ctrl := controller.NewConsoleController(time.Minute, btcUsdIdx, aggr)
 
 	go func() {
 		c := make(chan os.Signal, 1)

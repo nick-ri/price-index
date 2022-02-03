@@ -2,18 +2,18 @@ package indexes
 
 import (
 	"errors"
-	"github.com/NickRI/btc_index/internal"
-	"github.com/NickRI/btc_index/internal/indexes/common"
-	"github.com/NickRI/btc_index/internal/models"
-	"github.com/shopspring/decimal"
 	"log"
 	"sync/atomic"
 	"time"
 	"unsafe"
+
+	"github.com/NickRI/btc_index/internal"
+	"github.com/NickRI/btc_index/internal/indexes/common"
+	"github.com/NickRI/btc_index/internal/models"
+	"github.com/shopspring/decimal"
 )
 
 // made just for fun, about 1.5x faster than mb-optimized
-// No ABA solution
 type lfOptimized struct {
 	ticker models.Ticker
 

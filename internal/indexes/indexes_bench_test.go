@@ -1,12 +1,13 @@
 package indexes
 
 import (
-	"github.com/NickRI/btc_index/internal"
-	"github.com/NickRI/btc_index/internal/models"
-	"github.com/shopspring/decimal"
 	"sync"
 	"testing"
 	"time"
+
+	"github.com/NickRI/btc_index/internal"
+	"github.com/NickRI/btc_index/internal/models"
+	"github.com/shopspring/decimal"
 )
 
 const amountOfStreams = 100

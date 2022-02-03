@@ -3,9 +3,10 @@ package controller
 import (
 	"context"
 	"fmt"
-	"github.com/NickRI/btc_index/internal"
 	"log"
 	"time"
+
+	"github.com/NickRI/btc_index/internal"
 )
 
 type consoleController struct {

@@ -2,9 +2,10 @@ package internal
 
 import (
 	"context"
-	"github.com/shopspring/decimal"
 	"log"
 	"time"
+
+	"github.com/shopspring/decimal"
 )
 
 type Result struct {

@@ -2,6 +2,11 @@ package main
 
 import (
 	"context"
+	"log"
+	"os"
+	"os/signal"
+	"time"
+
 	"github.com/NickRI/btc_index/cmd"
 	"github.com/NickRI/btc_index/internal"
 	"github.com/NickRI/btc_index/internal/aggregates"
@@ -9,10 +14,6 @@ import (
 	"github.com/NickRI/btc_index/internal/indexes"
 	"github.com/NickRI/btc_index/internal/indexes/common"
 	"github.com/NickRI/btc_index/internal/models"
-	"log"
-	"os"
-	"os/signal"
-	"time"
 )
 
 const XTimesFaster = 10
@@ -33,18 +34,42 @@ func main() {
 
 	crossBtcUsdIdx := indexes.NewCrossRate(btcUsdIdx, 0.5, indexList)
 
-	writers := cmd.MakeWriters(cmd.AmountOfSources, models.BTCUSD, 39250.12, 0.001, time.Second/XTimesFaster, time.Second/XTimesFaster*2)
+	mainWriters := cmd.MakeWriters(
+		cmd.AmountOfSources/10, // small amount for base currency to semulate bad fairness
+		models.BTCUSD,
+		39250.12,
+		0.0001,
+		time.Second/XTimesFaster,
+		time.Second/XTimesFaster*2,
+	)
 
-	agg := aggregates.NewEfficient(crossBtcUsdIdx, writers...)
-
+	agg := aggregates.NewEfficient(crossBtcUsdIdx, mainWriters...)
 	ctrl := controller.NewConsoleController(time.Minute, crossBtcUsdIdx, agg)
+
+	ethUsdWriters := cmd.MakeWriters(
+		cmd.AmountOfSources,
+		models.ETHUSD,
+		2669.80,
+		0.0001,
+		time.Second/XTimesFaster,
+		time.Second/XTimesFaster*2,
+	)
+
+	ethBtcWriters := cmd.MakeWriters(
+		cmd.AmountOfSources,
+		models.ETHBTC,
+		0.06,
+		0.0001,
+		time.Second/XTimesFaster,
+		time.Second/XTimesFaster*2,
+	)
 
 	nonBlockingCtrls = append(nonBlockingCtrls,
 		controller.NewNonBlockingController(ethUsdIds,
-			aggregates.NewEfficient(ethUsdIds, writers...),
+			aggregates.NewEfficient(ethUsdIds, ethUsdWriters...),
 		),
 		controller.NewNonBlockingController(ethBtcIds,
-			aggregates.NewEfficient(ethBtcIds, writers...),
+			aggregates.NewEfficient(ethBtcIds, ethBtcWriters...),
 		),
 	)
 

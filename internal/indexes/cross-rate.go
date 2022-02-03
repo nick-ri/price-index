@@ -1,12 +1,13 @@
 package indexes
 
 import (
+	"log"
+	"time"
+
 	"github.com/NickRI/btc_index/internal"
 	"github.com/NickRI/btc_index/internal/indexes/common"
 	"github.com/NickRI/btc_index/internal/models"
 	"github.com/shopspring/decimal"
-	"log"
-	"time"
 )
 
 type crossRate struct {
@@ -41,9 +42,11 @@ func (c *crossRate) GetPrice(rStart, rEnd time.Time) (decimal.Decimal, decimal.D
 		return decimal.Zero, decimal.Zero, err
 	}
 
-	if fairness.GreaterThanOrEqual(c.trustLevel) || !price.IsZero() {
+	if fairness.GreaterThanOrEqual(c.trustLevel) {
 		return price, fairness, nil
 	}
+
+	log.Printf("fairness %s is not enought, try to use cross pairs", fairness)
 
 	for _, cross := range c.crossList {
 		price, fairness, err = cross.GetPrice(rStart, rEnd) // TODO: Range by best fair

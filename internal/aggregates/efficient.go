@@ -2,6 +2,7 @@ package aggregates
 
 import (
 	"context"
+
 	"github.com/NickRI/btc_index/internal"
 )
 

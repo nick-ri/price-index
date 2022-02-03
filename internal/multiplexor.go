@@ -2,8 +2,9 @@ package internal
 
 import (
 	"context"
-	"github.com/NickRI/btc_index/internal/models"
 	"log"
+
+	"github.com/NickRI/btc_index/internal/models"
 )
 
 func TickerMultiplexor(ctx context.Context, ticker models.Ticker, subscibers ...PriceStreamSubscriber) chan models.TickerPrice {

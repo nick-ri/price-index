@@ -2,14 +2,14 @@ package controller
 
 import (
 	"context"
-	"github.com/NickRI/btc_index/internal"
 	"log"
+
+	"github.com/NickRI/btc_index/internal"
 )
 
 type nonblockingController struct {
 	index      internal.Index
 	aggregator internal.Aggregator
-	subscibers []internal.PriceStreamSubscriber
 }
 
 var _ internal.Controller = (*nonblockingController)(nil)
@@ -17,8 +17,8 @@ var _ internal.Controller = (*nonblockingController)(nil)
 func NewNonBlockingController(
 	index internal.Index,
 	aggregator internal.Aggregator,
-) *consoleController {
-	return &consoleController{
+) *nonblockingController {
+	return &nonblockingController{
 		index:      index,
 		aggregator: aggregator,
 	}

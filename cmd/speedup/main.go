@@ -2,15 +2,16 @@ package main
 
 import (
 	"context"
+	"log"
+	"os"
+	"os/signal"
+	"time"
+
 	"github.com/NickRI/btc_index/cmd"
 	"github.com/NickRI/btc_index/internal/aggregates"
 	"github.com/NickRI/btc_index/internal/controller"
 	"github.com/NickRI/btc_index/internal/indexes"
 	"github.com/NickRI/btc_index/internal/models"
-	"log"
-	"os"
-	"os/signal"
-	"time"
 )
 
 const XTimesFaster = 10
@@ -20,11 +21,11 @@ func main() {
 
 	btcUsdIdx := indexes.NewMBOptimized(models.BTCUSD, models.FiatDecimals, cmd.AmountOfSources*XTimesFaster, time.Minute)
 
-	writers := cmd.MakeWriters(cmd.AmountOfSources, models.BTCUSD, 39250.12, 0.0003, time.Second/XTimesFaster, time.Second/XTimesFaster)
+	writers := cmd.MakeWriters(cmd.AmountOfSources, models.BTCUSD, 39250.12, 0.0003, time.Second/XTimesFaster, time.Second/XTimesFaster*2)
 
 	aggr := aggregates.NewEfficient(btcUsdIdx, writers...)
 
-	ctrl := controller.NewConsoleController(time.Second, btcUsdIdx, aggr)
+	ctrl := controller.NewConsoleController(time.Minute, btcUsdIdx, aggr)
 
 	go func() {
 		c := make(chan os.Signal, 1)
